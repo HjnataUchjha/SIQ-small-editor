@@ -1,0 +1,85 @@
+<nb-card class="settings-card">
+  <nb-card-body>
+    <form (ngSubmit)="submit()" aria-label="Настройки перемешивания">
+      <div class="settings-grid">
+        <div class="field mode-field">
+          <label id="shuffle-mode-label" for="shuffle-mode">Способ перемешивания</label>
+          <nb-select id="shuffle-mode" fullWidth [selected]="mode()" [disabled]="busy()"
+            aria-labelledby="shuffle-mode-label" (selectedChange)="modeChange.emit($event)">
+            <nb-option value="all">Перемешать всё</nb-option>
+            <nb-option value="rounds">Перемешать раунд/раунды</nb-option>
+            <nb-option value="themes">Перемешать темы</nb-option>
+            <nb-option value="single-theme">Перемешать одну тему</nb-option>
+          </nb-select>
+        </div>
+        @if (mode() !== 'single-theme') {
+          @if (mode() !== 'themes') {
+            <div class="field">
+              <label for="round-count">Количество раундов</label>
+              <input nbInput fullWidth id="round-count" name="roundCount" type="number" min="1" step="1"
+                required [status]="invalidNumber(settings.roundCount) ? 'danger' : 'basic'"
+                [attr.aria-invalid]="invalidNumber(settings.roundCount)"
+                [disabled]="busy()" [(ngModel)]="settings.roundCount">
+            </div>
+            <div class="field">
+              <label for="themes-per-round">Тем в раунде</label>
+              <input nbInput fullWidth id="themes-per-round" name="themesPerRound" type="number" min="1" step="1"
+                required [status]="invalidNumber(settings.themesPerRound) ? 'danger' : 'basic'"
+                [attr.aria-invalid]="invalidNumber(settings.themesPerRound)"
+                [disabled]="busy()" [(ngModel)]="settings.themesPerRound">
+            </div>
+          }
+          <div class="field">
+            <label for="questions-per-theme">Вопросов в теме</label>
+            <input nbInput fullWidth id="questions-per-theme" name="questionsPerTheme" type="number" min="1" step="1"
+              required [status]="invalidNumber(settings.questionsPerTheme) ? 'danger' : 'basic'"
+              [attr.aria-invalid]="invalidNumber(settings.questionsPerTheme)"
+              [disabled]="busy()" [(ngModel)]="settings.questionsPerTheme">
+          </div>
+          <div class="field theme-name-field">
+            <label for="theme-name">Название тем</label>
+            <input nbInput fullWidth id="theme-name" name="themeName" [disabled]="busy()" [(ngModel)]="settings.themeName"
+              required [status]="settings.themeName.trim() ? 'basic' : 'danger'" [attr.aria-invalid]="!settings.themeName.trim()">
+          </div>
+        }
+      </div>
+      @if (mode() !== 'single-theme') {
+        <nb-checkbox class="number-themes" name="numberThemes" [disabled]="busy()" [(ngModel)]="settings.numberThemes">
+          Добавлять сквозную нумерацию к названиям тем
+        </nb-checkbox>
+      }
+      <div class="selection-toolbar">
+        <div class="selection-actions">
+          @if (mode() === 'rounds' || mode() === 'themes') {
+            <button nbButton ghost size="small" type="button" [disabled]="busy()" (click)="selectAll.emit()">Выбрать всё</button>
+            <button nbButton ghost size="small" type="button" [disabled]="busy()" (click)="clearSelection.emit()">Снять выбор</button>
+          }
+          @if (mode() !== 'all') {
+            <span class="selection-count">Выбрано: {{ mode() === 'rounds' ? roundIds().length : themeIds().length }}</span>
+          }
+        </div>
+        <div class="status-message">
+      @if (validationMessage(); as message) {
+        <p class="hint validation-error" aria-live="polite">{{ message }}</p>
+      } @else {
+        <p class="hint" aria-live="polite">
+          Вопросов: {{ questionCount() }}.
+          @if (mode() === 'single-theme') {
+            Изменится только их порядок в выбранной теме.
+          } @else {
+            Получится раундов: {{ plannedRounds() }}, тем: {{ plannedThemes() }}.
+            @if (mode() !== 'themes' && plannedRounds() !== settings.roundCount) {
+              Количество раундов скорректировано по числу вопросов и вместимости.
+            }
+          }
+          Финальные раунды сохраняются
+        </p>
+      }
+        </div>
+        <button nbButton status="primary" type="submit" [disabled]="busy() || !!validationMessage()">
+          <nb-icon icon="shuffle-2-outline"></nb-icon>Перемешать
+        </button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

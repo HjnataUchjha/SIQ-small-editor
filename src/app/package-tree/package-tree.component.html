@@ -1,0 +1,85 @@
+<section aria-labelledby="package-title" class="package-tree">
+  <div class="package-heading">
+    <div>
+      <span class="eyebrow">СТРУКТУРА ПАКЕТА</span>
+      <h1 id="package-title">{{ structure().name }}</h1>
+    </div>
+    <div class="totals" aria-label="Количество элементов пакета">
+      <span>Раундов: <strong>{{ structure().rounds.length }}</strong></span>
+      <span>Тем: <strong>{{ structure().themeCount }}</strong></span>
+      <span>Вопросов: <strong>{{ structure().questionCount }}</strong></span>
+    </div>
+  </div>
+
+  @if (structure().rounds.length) {
+  <nb-accordion class="rounds-accordion" [multi]="true">
+  @for (round of structure().rounds; track round; let roundIndex = $index) {
+    <nb-accordion-item class="round-card" [expanded]="!round.isFinal" [class.final-round]="round.isFinal" [attr.aria-labelledby]="round.id">
+      <nb-accordion-item-header>
+        <div class="round-title">
+          <span class="round-number" aria-hidden="true">{{ roundIndex + 1 }}</span>
+          <h2 [id]="round.id">
+            @if (mode() === 'rounds' && !round.isFinal) {
+              <nb-checkbox [checked]="selectedRoundIds().includes(round.id)" [disabled]="disabled()"
+                (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                (checkedChange)="roundSelection.emit({ id: round.id, checked: $event })">{{ round.name }}</nb-checkbox>
+            } @else {
+              {{ round.name }}
+            }
+          </h2>
+          @if (round.isFinal) {
+            <span class="final-label" nbTooltip="Финальный раунд не участвует в перемешивании">
+              <nb-icon icon="lock-outline"></nb-icon>Финал
+            </span>
+          }
+        </div>
+        <span class="round-count">Тем: {{ round.themes.length }} · Вопросов: {{ round.questionCount }}</span>
+      </nb-accordion-item-header>
+      <nb-accordion-item-body>
+        @if (round.themes.length) {
+        <nb-accordion class="themes-accordion" [multi]="true">
+        @for (theme of round.themes; track theme.id) {
+          <nb-accordion-item class="theme-item" [expanded]="!round.isFinal" [attr.aria-labelledby]="theme.id">
+            <nb-accordion-item-header class="theme-header">
+            <h3 [id]="theme.id">
+              @if (mode() === 'themes' && !round.isFinal) {
+                <nb-checkbox [checked]="selectedThemeIds().includes(theme.id)" [disabled]="disabled()"
+                  (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                  (checkedChange)="themeSelection.emit({ id: theme.id, checked: $event })">{{ theme.name }}</nb-checkbox>
+              } @else if (mode() === 'single-theme' && !round.isFinal) {
+                <nb-radio name="single-theme" [value]="theme.id" [checked]="selectedThemeIds().includes(theme.id)" [disabled]="disabled()"
+                  (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                  (valueChange)="themeSelection.emit({ id: theme.id, checked: true })">{{ theme.name }}</nb-radio>
+              } @else {
+                {{ theme.name }}
+              }
+            </h3>
+            <span class="theme-count">Вопросов: {{ theme.questions.length }}</span>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+            <ol class="questions" [attr.aria-label]="'Вопросы темы «' + theme.name + '»'">
+              @for (question of theme.questions; track question.id; let questionIndex = $index) {
+                <li class="question-tile"
+                  [attr.aria-label]="'Вопрос ' + (questionIndex + 1) + ', цена: ' + (question.price || 'не указана')"
+                  [nbTooltip]="'Вопрос ' + (questionIndex + 1) + ', цена: ' + (question.price || 'не указана')">
+                  {{ question.price || '—' }}
+                </li>
+              } @empty {
+                <li class="empty-text">Нет вопросов</li>
+              }
+            </ol>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+        }
+        </nb-accordion>
+        } @else {
+          <p class="empty-text">В этом раунде нет тем</p>
+        }
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+  }
+  </nb-accordion>
+  } @else {
+    <nb-card><nb-card-body class="empty-text">В пакете пока нет раундов</nb-card-body></nb-card>
+  }
+</section>

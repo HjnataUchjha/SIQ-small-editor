@@ -1,0 +1,10 @@
+<nb-card aria-labelledby="upload-title">
+  <nb-card-body>
+    <h1 id="upload-title">Открыть пакет SIGame</h1>
+    <p>Файл с расширением <strong>.siq</strong></p>
+    <button nbButton status="primary" size="large" [disabled]="busy()" (click)="chooseFile.emit()">
+      <nb-icon icon="folder-outline"></nb-icon>Выбрать файл
+    </button>
+    <p class="privacy"><nb-icon icon="shield-outline"></nb-icon>Файл остаётся на вашем компьютере</p>
+  </nb-card-body>
+</nb-card>

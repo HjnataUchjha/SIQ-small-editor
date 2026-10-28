@@ -1,0 +1,28 @@
+<div class="file-toolbar">
+  <div class="current-file" role="status">
+    <nb-icon icon="file-text-outline"></nb-icon>
+    <span>{{ fileName() }}</span>
+  </div>
+  <div class="file-actions">
+    <div class="history-actions" role="group" aria-label="История изменений">
+      <span nbTooltip="Отменить последнее изменение">
+        <button nbButton ghost status="primary" size="small" aria-label="Отменить последнее изменение"
+          [disabled]="busy() || !canUndo()" (click)="undo.emit()">
+          <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+      </span>
+      <span nbTooltip="Восстановить отменённое изменение">
+        <button nbButton ghost status="primary" size="small" aria-label="Восстановить отменённое изменение"
+          [disabled]="busy() || !canRedo()" (click)="redo.emit()">
+          <nb-icon icon="arrow-forward-outline"></nb-icon>
+        </button>
+      </span>
+    </div>
+    <button nbButton outline status="primary" size="small" [disabled]="busy()" (click)="chooseFile.emit()">
+      <nb-icon icon="folder-outline"></nb-icon>Выбрать другой файл
+    </button>
+    <button nbButton status="success" size="small" [disabled]="busy()" (click)="download.emit()">
+      <nb-icon icon="download-outline"></nb-icon>Выгрузить SIQ
+    </button>
+  </div>
+</div>

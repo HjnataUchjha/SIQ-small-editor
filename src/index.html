@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>SIQ small editor</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="./src/assets/logo.png">
+    <base href="./">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Перемешивание вопросов в пакетах SIGame">
+    <script>
+      // Применяем цвет фона до запуска Angular, чтобы не было светлой вспышки.
+      try {
+        var theme = localStorage.getItem('siq-small-editor.theme');
+        if (['default', 'dark', 'cosmic', 'corporate'].includes(theme)) {
+          document.documentElement.dataset['theme'] = theme;
+        }
+      } catch (_) {}
+    </script>
+    <style>
+      html { background: #edf1f7; }
+      html[data-theme="dark"] { background: #151a30; }
+      html[data-theme="cosmic"] { background: #1b1b38; }
+      html[data-theme="corporate"] { background: #f7f9fc; }
+    </style>
+  </head>
+  <body>
+    <app-root></app-root>
+    <noscript>Для работы приложения включите JavaScript в браузере</noscript>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<div class="header-content">
+  <a class="brand" href="./index.html" aria-label="SIQ small editor — главная">
+    <img class="brand-logo" src="./src/assets/logo.png" width="32" height="32" alt="">
+    <span>SIQ small editor</span>
+  </a>
+  <button nbButton ghost size="medium" [status]="themeStatus()"
+    [attr.aria-label]="'Сменить тему. Текущая: ' + themes.current().label"
+    [nbTooltip]="'Тема: ' + themes.current().label + '. Нажмите для переключения'"
+    nbTooltipPlacement="bottom" (click)="themes.next()">
+    <nb-icon icon="sun-outline"></nb-icon>
+  </button>
+</div>

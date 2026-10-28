@@ -1,0 +1,7 @@
+:host { display: block; margin-bottom: var(--app-block-gap); }
+.file-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--app-block-gap); }
+.file-actions, .history-actions, .current-file { display: flex; align-items: center; gap: var(--app-block-gap); }
+.file-actions { flex-wrap: wrap; }
+.current-file { min-width: 0; }
+.current-file span { overflow-wrap: anywhere; }
+.current-file nb-icon { flex-shrink: 0; }

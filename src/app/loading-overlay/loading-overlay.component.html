@@ -1,0 +1,6 @@
+<nb-card role="status" aria-live="polite">
+  <nb-card-body>
+    <div class="spinner" aria-hidden="true"><nb-spinner size="large" status="primary" message=""></nb-spinner></div>
+    <p>{{ message() }} @if (progress() !== null) { <span>{{ progress() }}%</span> }</p>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,34 @@
+@use 'sass:string';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+@use '@nebular/theme/styles/themes/cosmic';
+@use '@nebular/theme/styles/themes/corporate';
+@use '@nebular/theme/styles/globals' as *;
+
+$nb-themes: nb-register-theme((
+  header-height: 56px,
+  header-padding: 0 1.25rem,
+  font-family-primary: string.unquote('"Segoe UI", Arial, sans-serif'),
+  font-family-secondary: string.unquote('"Segoe UI", Arial, sans-serif'),
+), default, default);
+
+$nb-themes: nb-register-theme((header-height: 56px, header-padding: 0 1.25rem), dark, dark);
+$nb-themes: nb-register-theme((header-height: 56px, header-padding: 0 1.25rem), cosmic, cosmic);
+$nb-themes: nb-register-theme((header-height: 56px, header-padding: 0 1.25rem), corporate, corporate);
+
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+:root { --app-block-gap: 10px; }
+html, body { margin: 0; min-width: 320px; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible { outline: 3px solid #598bff; outline-offset: 4px; }
+
+// Внутренняя обёртка Nebular: сохраняем компактные строки тем в аккордеоне.
+app-package-tree nb-accordion.rounds-accordion > nb-accordion-item > nb-accordion-item-body > div > .item-body { padding: 0 1.5rem; }
+app-package-tree nb-accordion.themes-accordion > nb-accordion-item > nb-accordion-item-body > div > .item-body { padding: 0 0 2px; }
+@media (max-width: 600px) {
+  app-package-tree nb-accordion.rounds-accordion > nb-accordion-item > nb-accordion-item-body > div > .item-body { padding: 0 1rem; }
+}

@@ -1,0 +1,7 @@
+.workspace { width: min(780px, 100%); margin: 4rem auto 3rem; }
+.workspace.has-package { width: min(1120px, 100%); margin-top: var(--app-block-gap); }
+nb-alert { margin: 0 0 var(--app-block-gap); }
+
+@media (max-width: 600px) {
+  .workspace { margin-top: 2rem; }
+}

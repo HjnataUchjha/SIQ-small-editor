@@ -1,0 +1,49 @@
+@use '@nebular/theme/styles/theming' as *;
+
+@include nb-install-component() {
+  .package-heading { margin: var(--app-block-gap) 0; }
+  .eyebrow { color: nb-theme(color-primary-default); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; }
+  h1 { margin: var(--app-block-gap) 0; font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.3; overflow-wrap: anywhere; }
+  .totals { display: flex; flex-wrap: wrap; gap: var(--app-block-gap); color: nb-theme(text-hint-color); font-size: 0.85rem; }
+  .totals strong { color: nb-theme(text-basic-color); margin-left: 0.25rem; }
+  .rounds-accordion, .themes-accordion { box-shadow: none; }
+  .round-card { border: 1px solid nb-theme(divider-color); border-radius: 0.85rem; overflow: hidden; margin-bottom: var(--app-block-gap); }
+  nb-accordion-item-header { display: flex; align-items: center; justify-content: space-between; gap: var(--app-block-gap); flex-wrap: wrap; padding: 1rem 3rem 1rem 1.5rem; }
+  nb-accordion-item-header:focus-visible { outline: 2px solid nb-theme(color-primary-default); outline-offset: -3px; }
+  .round-title { display: flex; align-items: center; gap: var(--app-block-gap); min-width: 0; flex-wrap: wrap; }
+  .round-number { color: nb-theme(text-hint-color); font-size: 0.8rem; }
+  h2 { margin: 0; font-size: 1.05rem; line-height: 1.4; overflow-wrap: anywhere; }
+  .round-count { font-size: 0.75rem; color: nb-theme(text-hint-color); font-weight: 400; }
+  .final-label { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; font-weight: 600; color: nb-theme(color-warning-default); }
+  .final-label nb-icon { height: 0.95rem; width: 0.95rem; }
+  .final-round { border-color: nb-theme(color-warning-default); }
+  nb-card-body { padding: 0 1.5rem; }
+  .theme-item + .theme-item { border-top: 1px solid nb-theme(divider-color); }
+  .theme-header { padding: 2px 3rem 2px 0; min-height: 2rem; border-bottom: 0; gap: 0.25rem 1rem; }
+  .theme-count { font-size: 0.75rem; color: nb-theme(text-hint-color); font-weight: 400; }
+  h3 { font-size: 0.9rem; font-weight: 600; line-height: 1.5; margin: 0; overflow-wrap: anywhere; }
+  .questions { display: flex; flex-wrap: wrap; gap: 2px; padding: 0; margin: 0; list-style: none; }
+  .question-tile {
+    min-width: 3.5rem;
+    min-height: 2.65rem;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background: nb-theme(color-primary-transparent-100);
+    color: nb-theme(text-basic-color);
+    border: 1px solid nb-theme(color-primary-transparent-200);
+    font-size: 0.85rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+  .empty-text { color: nb-theme(text-hint-color); font-size: 0.85rem; padding: 2px 0; margin: 0; }
+  @media (max-width: 600px) {
+    nb-card-body { padding: 0 1rem; }
+    nb-accordion-item-header { padding-left: 1rem; }
+    .theme-header { padding-left: 0; }
+    .question-tile { min-width: 3rem; }
+  }
+}

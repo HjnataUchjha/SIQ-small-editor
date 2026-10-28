@@ -1,0 +1,35 @@
+<nb-layout>
+  <nb-layout-header fixed [attr.inert]="session.loading() ? '' : null">
+    <app-header></app-header>
+  </nb-layout-header>
+
+  <nb-layout-column>
+    <main class="workspace" [class.has-package]="session.current()" [attr.aria-busy]="session.loading()"
+      [attr.inert]="session.loading() ? '' : null">
+      <input #fileInput type="file" accept=".siq" hidden [disabled]="session.loading()" (change)="selectFile($event)">
+      @if (session.error() || downloadError(); as message) {
+        <nb-alert status="danger" role="alert">{{ message }}</nb-alert>
+      }
+      @if (session.current(); as loaded) {
+        <app-package-toolbar [fileName]="loaded.fileName" [busy]="session.loading()"
+          [canUndo]="session.canUndo()" [canRedo]="session.canRedo()"
+          (undo)="undo()" (redo)="redo()" (chooseFile)="fileInput.click()" (download)="download()"></app-package-toolbar>
+        <app-shuffle-panel [mode]="mode()" [roundIds]="selectedRoundIds()" [themeIds]="selectedThemeIds()"
+          [questionCount]="selectedQuestionCount()" [busy]="session.loading()"
+          (modeChange)="setMode($event)" (shuffleRequested)="shuffle($event)"
+          (selectAll)="selectAll()" (clearSelection)="clearSelection()"></app-shuffle-panel>
+        @if (notice()) {
+          <nb-alert status="success" role="status">{{ notice() }}</nb-alert>
+        }
+        <app-package-tree [structure]="loaded.structure" [mode]="mode()"
+          [selectedRoundIds]="selectedRoundIds()" [selectedThemeIds]="selectedThemeIds()" [disabled]="session.loading()"
+          (roundSelection)="toggleRound($event)" (themeSelection)="toggleTheme($event)"></app-package-tree>
+      } @else {
+        <app-upload-package [busy]="session.loading()" (chooseFile)="fileInput.click()"></app-upload-package>
+      }
+    </main>
+    @if (session.loading()) {
+      <app-loading-overlay [message]="session.operation()" [progress]="session.progress()"></app-loading-overlay>
+    }
+  </nb-layout-column>
+</nb-layout>
